@@ -11,6 +11,7 @@ import { User } from '../models/User';
 import { mockUsers } from '../../_mocks_/mockUsers';
 import { UserSettings } from '../models/UserSettings';
 import { mockUserSettings } from '../../_mocks_/mockUserSettings';
+import { CreateUserInput } from '../utils/CreateUserInput';
 
 //Тип возвращаемого значения будет использоваться в качестве типа,
 // возвращаемого вложенным декоратором @Parent()
@@ -43,11 +44,10 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  createUser(
-    @Args('username') username: string,
-    @Args('displayName', { nullable: true }) displayName: string,
-  ): User {
+  // createUserData - название параметра, принимающего данные для создания пользователя в GraphQL-запросе
+  createUser(@Args('createUserData') createUserData: CreateUserInput): User {
     const id = mockUsers.length + 1;
+    const { username, displayName } = createUserData;
     const newUser = { id, username, displayName };
     mockUsers.push(newUser);
     return newUser;
