@@ -1,6 +1,7 @@
 import {
   Args,
   Int,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -39,5 +40,16 @@ export class UserResolver {
   getUserSettings(@Parent() user: User) {
     console.log(user);
     return mockUserSettings.find((settings) => settings.userId === user.id);
+  }
+
+  @Mutation(() => User)
+  createUser(
+    @Args('username') username: string,
+    @Args('displayName', { nullable: true }) displayName: string,
+  ): User {
+    const id = mockUsers.length + 1;
+    const newUser = { id, username, displayName };
+    mockUsers.push(newUser);
+    return newUser;
   }
 }
