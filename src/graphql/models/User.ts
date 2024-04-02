@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserSettings } from './UserSettings';
+// import { UserSettings } from './UserSettings';
 
 @ObjectType()
 export class User {
@@ -15,6 +15,9 @@ export class User {
   @Field({ nullable: true })
   displayName?: string;
 
-  @Field({ nullable: true })
-  settings?: UserSettings;
+  //Указывать здесь { nullable: true } необязательно,
+  //да и вообще, описывать поле settings здесь уже не нужно
+  //т.к. свойства этого поля определяются в UserResolver.getUserSettings()
+  // @Field({ nullable: true })
+  // settings?: UserSettings;
 }
