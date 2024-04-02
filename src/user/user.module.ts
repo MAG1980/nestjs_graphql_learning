@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserResolver } from '../graphql/resolvers/UserResolver';
+import { UserResolver } from './UserResolver';
 
 @Module({
   providers: [UserResolver],

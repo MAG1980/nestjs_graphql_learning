@@ -7,11 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { User } from '../models/User';
-import { mockUsers } from '../../_mocks_/mockUsers';
-import { UserSettings } from '../models/UserSettings';
-import { mockUserSettings } from '../../_mocks_/mockUserSettings';
-import { CreateUserInput } from '../utils/CreateUserInput';
+import { User } from '../graphql/models/User';
+import { mockUsers } from '../_mocks_/mockUsers';
+import { UserSettings } from '../graphql/models/UserSettings';
+import { mockUserSettings } from '../_mocks_/mockUserSettings';
+import { CreateUserInput } from '../graphql/utils/CreateUserInput';
 
 //Тип возвращаемого значения будет использоваться в качестве типа,
 // возвращаемого вложенным декоратором @Parent()
