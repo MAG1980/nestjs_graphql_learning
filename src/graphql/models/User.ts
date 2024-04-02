@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { UserSettings } from './UserSettings';
 
 @ObjectType()
 export class User {
@@ -13,4 +14,7 @@ export class User {
   //Для необязательных полей недостаточно указать "?"
   @Field({ nullable: true })
   displayName?: string;
+
+  @Field({ nullable: true })
+  settings?: UserSettings;
 }
