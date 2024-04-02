@@ -19,7 +19,10 @@ export const getDatasourceOptions = (): DataSourceOptions => {
     },
 
     timeTravelQueries: false,
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    // entities: ["src/entity/*.ts"],
+    // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../graphql/models/*{.ts,.js}'],
+
     synchronize: false,
     migrations: [__dirname + '/../../migrations/**/*{.ts,.js}'],
   };
