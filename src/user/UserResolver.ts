@@ -12,11 +12,15 @@ import { mockUsers } from '../_mocks_/mockUsers';
 import { UserSettings } from '../graphql/models/UserSettings';
 import { mockUserSettings } from '../_mocks_/mockUserSettings';
 import { CreateUserInput } from '../graphql/utils/CreateUserInput';
+import { Inject } from '@nestjs/common';
+import { UserService } from './user.service';
 
 //Тип возвращаемого значения будет использоваться в качестве типа,
 // возвращаемого вложенным декоратором @Parent()
 @Resolver(() => User)
 export class UserResolver {
+  constructor(@Inject(UserService) private userService: UserService) {}
+
   //name: 'userById' is the name of the query в схеме GraphQL
   @Query(() => User, { nullable: true, name: 'userById' })
   getUserById(@Args('id', { type: () => Int }) id: number): User {
@@ -24,8 +28,8 @@ export class UserResolver {
   }
 
   @Query(() => [User])
-  getAllUsers(): User[] {
-    return mockUsers;
+  async getAllUsers(): Promise<User[]> {
+    return await this.userService.getUsers();
   }
 
   //Если не передать в @ResolveField вторым параметром { name },
