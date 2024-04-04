@@ -22,7 +22,7 @@ export class User {
   @Field()
   username: string;
 
-  @Column()
+  @Column({ nullable: true })
   //Для необязательных полей недостаточно указать "?"
   @Field({ nullable: true })
   displayName?: string;

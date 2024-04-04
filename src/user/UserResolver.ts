@@ -49,11 +49,9 @@ export class UserResolver {
 
   @Mutation(() => User)
   // createUserData - название параметра, принимающего данные для создания пользователя в GraphQL-запросе
-  createUser(@Args('createUserData') createUserData: CreateUserInput): User {
-    const id = mockUsers.length + 1;
-    const { username, displayName } = createUserData;
-    const newUser = { id, username, displayName };
-    mockUsers.push(newUser);
-    return newUser;
+  createUser(
+    @Args('createUserData') createUserData: CreateUserInput,
+  ): Promise<User> {
+    return this.userService.createUser(createUserData);
   }
 }
