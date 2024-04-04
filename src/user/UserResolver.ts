@@ -8,7 +8,6 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { User } from '../graphql/models/User';
-import { mockUsers } from '../_mocks_/mockUsers';
 import { UserSettings } from '../graphql/models/UserSettings';
 import { mockUserSettings } from '../_mocks_/mockUserSettings';
 import { CreateUserInput } from '../graphql/utils/CreateUserInput';
@@ -23,8 +22,8 @@ export class UserResolver {
 
   //name: 'userById' is the name of the query в схеме GraphQL
   @Query(() => User, { nullable: true, name: 'userById' })
-  getUserById(@Args('id', { type: () => Int }) id: number): User {
-    return mockUsers.find((user) => user.id === id);
+  getUserById(@Args('id', { type: () => Int }) id: number): Promise<User> {
+    return this.userService.getUserById(id)
   }
 
   @Query(() => [User])
