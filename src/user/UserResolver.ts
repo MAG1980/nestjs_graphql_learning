@@ -9,16 +9,26 @@ import {
 } from '@nestjs/graphql';
 import { User } from '../graphql/models/User';
 import { UserSettings } from '../graphql/models/UserSettings';
-import { mockUserSettings } from '../_mocks_/mockUserSettings';
 import { CreateUserInput } from '../graphql/utils/CreateUserInput';
-import { Inject } from '@nestjs/common';
+import { Inject, OnModuleInit } from '@nestjs/common';
 import { UserService } from './user.service';
+import { UserSettingsService } from "../user-settings/user-settings.service";
+import { ModuleRef } from "@nestjs/core";
 
 //Тип возвращаемого значения будет использоваться в качестве типа,
 // возвращаемого вложенным декоратором @Parent()
 @Resolver(() => User)
-export class UserResolver {
-  constructor(@Inject(UserService) private userService: UserService) {}
+export class UserResolver implements OnModuleInit {
+  private userSettingsService: UserSettingsService
+
+  constructor(
+    @Inject(UserService) private userService: UserService,
+    private moduleRef: ModuleRef
+  ) {}
+
+  onModuleInit() {
+    this.userSettingsService = this.moduleRef.get(UserSettingsService, { strict: false });
+  }
 
   //name: 'userById' is the name of the query в схеме GraphQL
   @Query(() => User, { nullable: true, name: 'userById' })
@@ -42,8 +52,7 @@ export class UserResolver {
   //Вместо этого при написании @Query следует извлекать из БД все необходимые свойства в одном запросе.
   @ResolveField(() => UserSettings, { name: 'settings', nullable: true })
   getUserSettings(@Parent() user: User) {
-    console.log(user);
-    return mockUserSettings.find((settings) => settings.userId === user.id);
+    return this.userSettingsService.getUserSettingsByUserId(user.id)
   }
 
   @Mutation(() => User)

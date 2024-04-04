@@ -22,10 +22,13 @@ export class UserSettingsService {
       throw new NotFoundException(`User with id ${createUserSettingsData.userId} not found`)
     }
     const newUserSettings = this.userSettingsRepository.create(createUserSettingsData)
-    return this.userSettingsRepository.save(newUserSettings)
+    const userSettings = await this.userSettingsRepository.save(newUserSettings)
+    user.settings = userSettings
+    await this.userService.saveUser(user)
+    return userSettings
   }
 
-  getUserSettingsByUserId(userId: number): Promise<UserSettings> {
-    return this.userSettingsRepository.findOneBy({ userId })
+  async getUserSettingsByUserId(userId: number): Promise<UserSettings> {
+    return await this.userSettingsRepository.findOneBy({ userId })
   }
 }

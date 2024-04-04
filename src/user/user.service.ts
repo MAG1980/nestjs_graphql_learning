@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../graphql/models/User';
 import { Repository } from 'typeorm';
@@ -21,5 +21,12 @@ export class UserService {
 
   getUserById(id:number):Promise<User>{
     return this.userRepository.findOneBy({id})
+  }
+
+  async saveUser(user: User): Promise<User> {
+    if(!user){
+      throw new NotFoundException('User not found')
+    }
+    return await this.userRepository.save(user)
   }
 }
