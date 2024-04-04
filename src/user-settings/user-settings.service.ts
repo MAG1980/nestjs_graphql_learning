@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from "typeorm";
 import { UserSettings } from "../graphql/models/UserSettings";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -9,14 +9,18 @@ import { UserService } from "../user/user.service";
 export class UserSettingsService {
   constructor(
     @InjectRepository(UserSettings) private userSettingsRepository: Repository<UserSettings>,
-    private userService:UserService
+    private userService: UserService
   ) {}
 
   getAllUserSettings(): Promise<UserSettings[]> {
     return this.userSettingsRepository.find();
   }
 
-  createUserSettings(createUserSettingsData: CreateUserSettingsInput): Promise<UserSettings> {
+  async createUserSettings(createUserSettingsData: CreateUserSettingsInput): Promise<UserSettings> {
+    const user = await this.userService.getUserById(createUserSettingsData.userId)
+    if (!user) {
+      throw new NotFoundException(`User with id ${createUserSettingsData.userId} not found`)
+    }
     const newUserSettings = this.userSettingsRepository.create(createUserSettingsData)
     return this.userSettingsRepository.save(newUserSettings)
   }
