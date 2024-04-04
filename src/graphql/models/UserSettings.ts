@@ -12,11 +12,11 @@ export class UserSettings {
   @Field(() => Int)
   userId: number;
 
-  @Column({ name: 'receive_notifications' })
+  @Column({ name: 'receive_notifications', default:false })
   @Field({ defaultValue: false })
   receiveNotifications: boolean;
 
-  @Column({ name: 'receive_emails' })
+  @Column({ name: 'receive_emails', default:false })
   @Field({ defaultValue: false })
   receiveEmails: boolean;
 }

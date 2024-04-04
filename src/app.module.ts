@@ -5,8 +5,8 @@ import { getDatasourceOptions } from './config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import * as process from 'process';
-import { UserSettingsResolver } from './graphql/resolvers/UserSettingsResolver';
 import { UserModule } from './user/user.module';
+import { UserSettingsModule } from './user-settings/user-settings.module';
 
 const { join } = path;
 
@@ -19,8 +19,9 @@ const { join } = path;
       sortSchema: true,
     }),
     UserModule,
+    UserSettingsModule,
   ],
   controllers: [],
-  providers: [UserSettingsResolver],
+  providers: [],
 })
 export class AppModule {}
