@@ -11,7 +11,7 @@ export class UserService {
   ) {}
 
   getUsers(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['settings'] });
   }
 
   createUser(userData: CreateUserInput): Promise<User> {
@@ -19,12 +19,12 @@ export class UserService {
     return this.userRepository.save(newUser);
   }
 
-  getUserById(id:number):Promise<User>{
-    return this.userRepository.findOneBy({id})
+  getUserById(id: number): Promise<User> {
+    return this.userRepository.findOne( {where:{ id },  relations: ['settings'] })
   }
 
   async saveUser(user: User): Promise<User> {
-    if(!user){
+    if (!user) {
       throw new NotFoundException('User not found')
     }
     return await this.userRepository.save(user)

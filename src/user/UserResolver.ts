@@ -50,10 +50,10 @@ export class UserResolver implements OnModuleInit {
   //При работе с реляционными БД (SQL) применять @ResolveField не следует,
   //т.к. это приводит к увеличению количества запросов к базе данных (снижению производительности).
   //Вместо этого при написании @Query следует извлекать из БД все необходимые свойства в одном запросе.
-  @ResolveField(() => UserSettings, { name: 'settings', nullable: true })
+/*  @ResolveField(() => UserSettings, { name: 'settings', nullable: true })
   getUserSettings(@Parent() user: User) {
     return this.userSettingsService.getUserSettingsByUserId(user.id)
-  }
+  }*/
 
   @Mutation(() => User)
   // createUserData - название параметра, принимающего данные для создания пользователя в GraphQL-запросе

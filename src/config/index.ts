@@ -25,5 +25,7 @@ export const getDatasourceOptions = (): DataSourceOptions => {
 
     synchronize: false,
     migrations: [__dirname + '/../../migrations/**/*{.ts,.js}'],
+
+    logging:true
   };
 };
