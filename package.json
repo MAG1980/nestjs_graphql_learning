@@ -22,7 +22,11 @@
     "mg:run": "pnpm run to-ts-node migration:run",
     "mg:gen": "pnpm run to-ts-node migration:generate ./migrations/m",
     "mg:rev": "pnpm run to-ts-node migration:revert",
-    "mg:cr": "typeorm migration:create ./migrations/created_migration"
+    "mg:cr": "typeorm migration:create ./migrations/created_migration",
+    "typeorm": "npm run build && npx typeorm -d dist/src/dataSource/index.js",
+    "migration:generate": "npm run typeorm -- migration:generate ./migrations/m",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "@apollo/server": "^4.10.2",
