@@ -15,10 +15,23 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  /*  it('/ (GET)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
       .expect('Hello World!');
+  });*/
+
+  describe('getUsers', () => {
+    it('should query getUsers and return 0 users', function () {
+      return request(app.getHttpServer())
+        .post('/graphql')
+        .send({ query: '{ getAllUsers { id username displayName }}' })
+        .expect((res) => {
+          console.log(res);
+          expect(res.body.data.getAllUsers.length).toBe(0);
+          expect(res.body.data.getAllUsers).toHaveLength(0);
+        });
+    });
   });
 });
