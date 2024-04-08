@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { DataSource } from 'typeorm';
 
-describe('AppController (e2e)', () => {
+describe('GraphQL-server (e2e)', () => {
   let app: INestApplication;
   // beforeEach - выполняется перед каждым тестом
   // инициализировать приложение перед каждым тестом не требуется,
@@ -69,6 +69,16 @@ describe('AppController (e2e)', () => {
             username: 'test',
             displayName: 'TestName',
           });
+        });
+    });
+
+    it('should query getUsers and return 1 users', function () {
+      return request(app.getHttpServer())
+        .post('/graphql')
+        .send({ query: '{ getAllUsers { id username displayName }}' })
+        .expect((res) => {
+          expect(res.body.data.getAllUsers.length).toBe(1);
+          expect(res.body.data.getAllUsers).toHaveLength(1);
         });
     });
   });
