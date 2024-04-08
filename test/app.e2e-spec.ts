@@ -24,6 +24,19 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
+  afterAll(async () => {
+    // Получение подключения к БД
+    const dataSource = app.get(DataSource);
+    if (dataSource) {
+      //Удаление БД
+      await dataSource.dropDatabase();
+      // Закрытие подключения к БД
+      await dataSource.destroy();
+    }
+    // Закрытие приложения
+    await app.close();
+  });
+
   /*  it('/ (GET)', () => {
     return request(app.getHttpServer())
       .get('/')
@@ -37,7 +50,6 @@ describe('AppController (e2e)', () => {
         .post('/graphql')
         .send({ query: '{ getAllUsers { id username displayName }}' })
         .expect((res) => {
-          console.log(res);
           expect(res.body.data.getAllUsers.length).toBe(0);
           expect(res.body.data.getAllUsers).toHaveLength(0);
         });
