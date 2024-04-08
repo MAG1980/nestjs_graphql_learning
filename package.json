@@ -20,6 +20,7 @@
     "test:e2e": "set NODE_ENV=TEST && jest --config ./test/jest-e2e.json",
     "to-ts-node": "npx typeorm-ts-node-esm -d ./src/dataSource/index.ts",
     "mg:run": "pnpm run to-ts-node migration:run",
+    "mg-test:run": "set NODE_ENV=TEST && pnpm run to-ts-node migration:run",
     "mg:gen": "pnpm run to-ts-node migration:generate ./migrations/m",
     "mg:rev": "pnpm run to-ts-node migration:revert",
     "mg:cr": "typeorm migration:create ./migrations/created_migration",
