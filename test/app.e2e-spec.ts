@@ -3,6 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { DataSource } from 'typeorm';
+import { print } from 'graphql';
+import { createUserMutation, getAllUsersQuery } from '../src/graphql/queries';
 
 describe('GraphQL-server (e2e)', () => {
   let app: INestApplication;
@@ -48,7 +50,7 @@ describe('GraphQL-server (e2e)', () => {
     it('should query getUsers and return 0 users', function () {
       return request(app.getHttpServer())
         .post('/graphql')
-        .send({ query: '{ getAllUsers { id username displayName }}' })
+        .send({ query: print(getAllUsersQuery) })
         .expect((res) => {
           expect(res.body.data.getAllUsers.length).toBe(0);
           expect(res.body.data.getAllUsers).toHaveLength(0);
@@ -59,8 +61,7 @@ describe('GraphQL-server (e2e)', () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
-          query:
-            'mutation { createUser (createUserData: {username: "test", displayName: "TestName" }){ id username displayName } }',
+          query: print(createUserMutation),
         })
         .expect(200)
         .expect((response) => {
@@ -75,7 +76,7 @@ describe('GraphQL-server (e2e)', () => {
     it('should query getUsers and return 1 users', function () {
       return request(app.getHttpServer())
         .post('/graphql')
-        .send({ query: '{ getAllUsers { id username displayName }}' })
+        .send({ query: print(getAllUsersQuery) })
         .expect((res) => {
           expect(res.body.data.getAllUsers.length).toBe(1);
           expect(res.body.data.getAllUsers).toHaveLength(1);
